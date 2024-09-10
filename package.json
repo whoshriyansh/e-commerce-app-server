@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "This is the backend for the ecommerce site made with MERN stack",
   "main": "Server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon Server.js",
+    "start": "node Server.js"
   },
   "keywords": [
     "E-coomerce",
