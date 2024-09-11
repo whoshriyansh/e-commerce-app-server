@@ -4,14 +4,15 @@ import createError from "./Error.middleware.js";
 
 const verifyToken = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
     if (!token) {
       return next(createError(401, "Not AUthorized, No Token"));
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decode.id);
+    req.user = await User.findById(decode.id).select("-password");
 
     next();
   } catch (err) {

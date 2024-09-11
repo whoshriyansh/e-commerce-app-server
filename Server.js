@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import ConfigDB from "./db/ConfigDB.js";
@@ -11,8 +11,15 @@ import orderRoutes from "./routes/Order.route.js";
 dotenv.config();
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+
+app.use((_, res, next) => {
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+app.use(json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
